@@ -56,18 +56,24 @@ var rootCmd = &cobra.Command{
 					fmt.Fprintln(os.Stderr, err)
 				}
 			}
-			fmt.Println(cookie)
 
-			shell := exec.Command("bash", "-c", `bash --init-file <(echo "source ~/.bashrc; PS1='[webview-login] '; alias curl='curl -H \"Cookie:`+cookie+`\"'")`)
-			shell.Stdout = os.Stdout
-			shell.Stdin = os.Stdin
-			shell.Stderr = os.Stderr
-			shell.Run()
-			os.Exit(0)
+			if Shell {
+				startShell(cookie)
+			} else {
+				fmt.Println(cookie)
+			}
 		} else {
 			os.Exit(1)
 		}
 	},
+}
+
+func startShell(cookie string) {
+	shell := exec.Command("bash", "-c", `bash --init-file <(echo "source ~/.bashrc; PS1='[webview-login] '; alias curl='curl -H \"Cookie:`+cookie+`\"'")`)
+	shell.Stdout = os.Stdout
+	shell.Stdin = os.Stdin
+	shell.Stderr = os.Stderr
+	shell.Run()
 }
 
 var Alias bool
@@ -76,10 +82,12 @@ var Keyring bool
 var Verbose bool
 var Match string
 var Domain string
+var Shell bool
 
 func init() {
 	// TODO
 	rootCmd.PersistentFlags().BoolVarP(&Alias, "alias", "a", false, "TODO set alias for current shell")
+	rootCmd.PersistentFlags().BoolVarP(&Shell, "shell", "s", false, "start interactive shell")
 	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of login-url)")
 	rootCmd.PersistentFlags().BoolVarP(&Clear, "clear", "c", false, "clear domain from keyring")
 	rootCmd.PersistentFlags().BoolVarP(&Keyring, "keyring", "k", false, "store/retrieve cookie in/from keyring (webview-login/{domain})")
