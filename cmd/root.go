@@ -39,9 +39,12 @@ var rootCmd = &cobra.Command{
 			Match:    Match,
 			Verbose:  Verbose,
 		}
-		fmt.Println(login.Login())
 
-		// Do Stuff Here
+		if cookie := login.Login(); cookie != "" {
+			fmt.Println(cookie)
+		} else {
+			os.Exit(1)
+		}
 	},
 }
 
