@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/rsteube/webview-login/login"
 	"github.com/spf13/cobra"
+	"github.com/zalando/go-keyring"
 	"net/url"
 	"os"
 )
@@ -27,6 +28,13 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
+		if Keyring {
+			if p, err := keyring.Get("webview-login", Domain); err == nil {
+				fmt.Println(p)
+				os.Exit(0)
+			}
+		}
+
 		login := &login.WebViewLogin{
 			Domain:   Domain,
 			LoginUrl: args[0],
@@ -35,6 +43,11 @@ var rootCmd = &cobra.Command{
 		}
 
 		if cookie := login.Login(); cookie != "" {
+			if Keyring {
+				if err := keyring.Set("webview-login", Domain, cookie); err != nil {
+					fmt.Fprintln(os.Stderr, err)
+				}
+			}
 			fmt.Println(cookie)
 		} else {
 			os.Exit(1)
@@ -42,12 +55,17 @@ var rootCmd = &cobra.Command{
 	},
 }
 
+var Alias bool
+var Keyring bool
 var Verbose bool
 var Match string
 var Domain string
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of LoginUrl)")
+	// TODO
+	rootCmd.PersistentFlags().BoolVarP(&Alias, "alias", "a", false, "TODO set alias for current shell")
+	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of login-url)")
+	rootCmd.PersistentFlags().BoolVarP(&Keyring, "keyring", "k", false, "store cookie in keyring")
 	rootCmd.PersistentFlags().StringVarP(&Match, "match", "m", ".*(_oauth2_proxy)=.*", "cookie regex")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
