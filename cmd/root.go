@@ -28,6 +28,13 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
+		if Clear {
+			if err := keyring.Delete("webview-login", Domain); err != nil {
+				fmt.Fprintln(os.Stderr, err)
+				os.Exit(1)
+			}
+		}
+
 		if Keyring {
 			if p, err := keyring.Get("webview-login", Domain); err == nil {
 				fmt.Println(p)
@@ -56,6 +63,7 @@ var rootCmd = &cobra.Command{
 }
 
 var Alias bool
+var Clear bool
 var Keyring bool
 var Verbose bool
 var Match string
@@ -65,7 +73,8 @@ func init() {
 	// TODO
 	rootCmd.PersistentFlags().BoolVarP(&Alias, "alias", "a", false, "TODO set alias for current shell")
 	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of login-url)")
-	rootCmd.PersistentFlags().BoolVarP(&Keyring, "keyring", "k", false, "store cookie in keyring")
+	rootCmd.PersistentFlags().BoolVarP(&Clear, "clear", "c", false, "clear domain from keyring")
+	rootCmd.PersistentFlags().BoolVarP(&Keyring, "keyring", "k", false, "store cookie in keyring (webview-login/{domain})")
 	rootCmd.PersistentFlags().StringVarP(&Match, "match", "m", ".*(_oauth2_proxy)=.*", "cookie regex")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
