@@ -24,14 +24,8 @@ var rootCmd = &cobra.Command{
 				//host, _, _ := net.SplitHostPort(u.Host)
 				//Domain = u.Scheme + "://" + host
 				Domain = u.Scheme + "://" + u.Host
-
-				// TODO verbose
-				//fmt.Println(Domain)
 			}
 		}
-
-		// TODO verbose
-		//fmt.Println(Match)
 
 		login := &login.WebViewLogin{
 			Domain:   Domain,
@@ -53,7 +47,7 @@ var Match string
 var Domain string
 
 func init() {
-	rootCmd.PersistentFlags().StringVarP(&Match, "domain", "d", "", "cookie domain")
+	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of LoginUrl)")
 	rootCmd.PersistentFlags().StringVarP(&Match, "match", "m", ".*(_oauth2_proxy)=.*", "cookie regex")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }

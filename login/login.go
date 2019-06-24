@@ -1,7 +1,9 @@
 package login
 
 import (
+	"fmt"
 	"github.com/zserge/webview"
+	"os"
 	"regexp"
 	"time"
 )
@@ -27,6 +29,8 @@ func (w *WebViewLogin) Login() string {
 
 	if !w.Verbose {
 		disableJsLog(webView)
+	} else {
+		fmt.Fprintf(os.Stderr, "%+v\n", w)
 	}
 
 	r, _ := regexp.Compile(w.Match)
