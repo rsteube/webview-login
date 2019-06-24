@@ -74,7 +74,7 @@ func init() {
 	rootCmd.PersistentFlags().BoolVarP(&Alias, "alias", "a", false, "TODO set alias for current shell")
 	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of login-url)")
 	rootCmd.PersistentFlags().BoolVarP(&Clear, "clear", "c", false, "clear domain from keyring")
-	rootCmd.PersistentFlags().BoolVarP(&Keyring, "keyring", "k", false, "store cookie in keyring (webview-login/{domain})")
+	rootCmd.PersistentFlags().BoolVarP(&Keyring, "keyring", "k", false, "store/retrieve cookie in/from keyring (webview-login/{domain})")
 	rootCmd.PersistentFlags().StringVarP(&Match, "match", "m", ".*(_oauth2_proxy)=.*", "cookie regex")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 }
