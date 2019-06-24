@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/rsteube/webview-login/login"
 	"github.com/spf13/cobra"
-	"github.com/zalando/go-keyring"
 	"net/url"
 	"os"
 	"os/exec"
@@ -29,34 +28,16 @@ var rootCmd = &cobra.Command{
 			}
 		}
 
-		if Clear {
-			if err := keyring.Delete("webview-login", Domain); err != nil {
-				fmt.Fprintln(os.Stderr, err)
-				os.Exit(1)
-			}
-		}
-
-		if Keyring {
-			if p, err := keyring.Get("webview-login", Domain); err == nil {
-				fmt.Println(p)
-				os.Exit(0)
-			}
-		}
-
 		login := &login.WebViewLogin{
+			Clear:    Clear,
 			Domain:   Domain,
+			Keyring:  Keyring,
 			LoginUrl: args[0],
 			Match:    Match,
 			Verbose:  Verbose,
 		}
 
 		if cookie := login.Login(); cookie != "" {
-			if Keyring {
-				if err := keyring.Set("webview-login", Domain, cookie); err != nil {
-					fmt.Fprintln(os.Stderr, err)
-				}
-			}
-
 			if Shell {
 				startShell(cookie)
 			} else {

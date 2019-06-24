@@ -2,6 +2,7 @@ package login
 
 import (
 	"fmt"
+	"github.com/zalando/go-keyring"
 	"github.com/zserge/webview"
 	"os"
 	"regexp"
@@ -11,12 +12,28 @@ import (
 type WebViewLogin struct {
 	CheckCookie bool
 	Domain      string
+	Keyring     bool
+	Clear       bool
 	LoginUrl    string
 	Match       string
 	Verbose     bool
 }
 
 func (w *WebViewLogin) Login() string {
+
+	if w.Clear {
+		if err := keyring.Delete("webview-login", w.Domain); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	}
+
+	if w.Keyring {
+		if p, err := keyring.Get("webview-login", w.Domain); err == nil {
+			return p
+		}
+	}
+
 	webView := webview.New(webview.Settings{
 		Title:                  "Login",
 		URL:                    w.LoginUrl,
@@ -50,6 +67,14 @@ func (w *WebViewLogin) Login() string {
 
 	webView.Exit()
 	webView.Terminate()
+
+	if result != "" {
+		if w.Keyring {
+			if err := keyring.Set("webview-login", w.Domain, result); err != nil {
+				fmt.Fprintln(os.Stderr, err)
+			}
+		}
+	}
 
 	// TODO use err
 	return result
