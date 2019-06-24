@@ -7,6 +7,7 @@ import (
 	"github.com/zalando/go-keyring"
 	"net/url"
 	"os"
+	"os/exec"
 )
 
 var rootCmd = &cobra.Command{
@@ -56,6 +57,13 @@ var rootCmd = &cobra.Command{
 				}
 			}
 			fmt.Println(cookie)
+
+			shell := exec.Command("bash", "-c", `bash --init-file <(echo "source ~/.bashrc; PS1='[webview-login] '; alias curl='curl -H \"Cookie:`+cookie+`\"'")`)
+			shell.Stdout = os.Stdout
+			shell.Stdin = os.Stdin
+			shell.Stderr = os.Stderr
+			shell.Run()
+			os.Exit(0)
 		} else {
 			os.Exit(1)
 		}

@@ -42,12 +42,14 @@ func (w *WebViewLogin) Login() string {
 			webView.GetCookie(w.Domain, func(cookie string) {
 				if r.MatchString(cookie) {
 					result = cookie
-					webView.Terminate()
 				}
 			})
 			w.CheckCookie = false
 		}
 	}
+
+	webView.Exit()
+	webView.Terminate()
 
 	// TODO use err
 	return result
