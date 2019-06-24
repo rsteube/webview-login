@@ -11,6 +11,7 @@ type WebViewLogin struct {
 	Domain      string
 	LoginUrl    string
 	Match       string
+	Verbose     bool
 }
 
 func (w *WebViewLogin) Login() string {
@@ -23,6 +24,10 @@ func (w *WebViewLogin) Login() string {
 		Debug:                  true,
 		ExternalInvokeCallback: nil,
 	})
+
+	if !w.Verbose {
+		disableJsLog(webView)
+	}
 
 	r, _ := regexp.Compile(w.Match)
 
@@ -49,4 +54,10 @@ func (w *WebViewLogin) timer() {
 		time.Sleep(100 * time.Millisecond)
 		w.CheckCookie = true
 	}
+}
+
+func disableJsLog(webView webview.WebView) {
+	webView.Dispatch(func() {
+		webView.Eval("console = function() {}")
+	})
 }
