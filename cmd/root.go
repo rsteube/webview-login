@@ -50,7 +50,11 @@ var rootCmd = &cobra.Command{
 }
 
 func startShell(cookie string) {
-	shell := exec.Command("bash", "-c", `bash --init-file <(echo "source ~/.bashrc; PS1='[webview-login] '; alias curl='curl -H \"Cookie:`+cookie+`\"'")`)
+	shell := exec.Command("bash", "-c", `bash --init-file <(
+	  echo "source ~/.bashrc; PS1='[webview-login] ';
+	  alias curl='curl -H \"Cookie:`+cookie+`\"';
+	  alias http=\"http --session-read-only <(echo '{\\\"headers\\\": {\\\"Cookie\\\": \\\"`+cookie+`\\\"}}')\";"
+	)`)
 	shell.Stdout = os.Stdout
 	shell.Stdin = os.Stdin
 	shell.Stderr = os.Stderr
