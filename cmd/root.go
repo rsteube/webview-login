@@ -61,7 +61,6 @@ func startShell(cookie string) {
 	shell.Run()
 }
 
-var Alias bool
 var Clear bool
 var Keyring bool
 var Verbose bool
@@ -70,8 +69,6 @@ var Domain string
 var Shell bool
 
 func init() {
-	// TODO
-	rootCmd.PersistentFlags().BoolVarP(&Alias, "alias", "a", false, "TODO set alias for current shell")
 	rootCmd.PersistentFlags().BoolVarP(&Shell, "shell", "s", false, "start interactive shell")
 	rootCmd.PersistentFlags().StringVarP(&Domain, "domain", "d", "", "cookie domain (default \"{scheme}://{host}\" of login-url)")
 	rootCmd.PersistentFlags().BoolVarP(&Clear, "clear", "c", false, "clear domain from keyring")
