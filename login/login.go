@@ -23,8 +23,9 @@ func (w *WebViewLogin) Login() string {
 
 	if w.Clear {
 		if err := keyring.Delete("webview-login", w.Domain); err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			os.Exit(1)
+			// TODO do nothing
+			//fmt.Fprintln(os.Stderr, err)
+			//os.Exit(1)
 		}
 	}
 
@@ -40,7 +41,7 @@ func (w *WebViewLogin) Login() string {
 		Width:                  1000,
 		Height:                 800,
 		Resizable:              true,
-		Debug:                  true,
+		Debug:                  w.Verbose,
 		ExternalInvokeCallback: nil,
 	})
 
@@ -89,6 +90,6 @@ func (w *WebViewLogin) timer() {
 
 func disableJsLog(webView webview.WebView) {
 	webView.Dispatch(func() {
-		webView.Eval("console = function() {}")
+		webView.Eval("console.log = function(){}")
 	})
 }
