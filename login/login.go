@@ -22,11 +22,7 @@ type WebViewLogin struct {
 func (w *WebViewLogin) Login() string {
 
 	if w.Clear {
-		if err := keyring.Delete("webview-login", w.Domain); err != nil {
-			// TODO do nothing
-			//fmt.Fprintln(os.Stderr, err)
-			//os.Exit(1)
-		}
+		keyring.Delete("webview-login", w.Domain)
 	}
 
 	if w.Keyring {
@@ -44,6 +40,7 @@ func (w *WebViewLogin) Login() string {
 		Debug:                  w.Verbose,
 		ExternalInvokeCallback: nil,
 	})
+	webView.ClearCache()
 
 	if !w.Verbose {
 		disableJsLog(webView)
@@ -67,7 +64,6 @@ func (w *WebViewLogin) Login() string {
 	}
 
 	webView.Exit()
-	webView.Terminate()
 
 	if result != "" {
 		if w.Keyring {
