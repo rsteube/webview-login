@@ -19,6 +19,9 @@ matrix:
       osx_image: xcode10.2
       before_install:
         - brew install upx
+    - os: windows
+      before_install:
+        - choco install upx
 
 script:
   - go build -ldflags="-s -w"
