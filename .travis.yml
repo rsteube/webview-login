@@ -15,14 +15,19 @@ matrix:
         - echo 'deb http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse' | sudo tee -a /etc/apt/sources.list
         - sudo apt-get update
         - sudo apt-get install -y libwebkit2gtk-4.0-dev=2.20.1-1 libwebkit2gtk-4.0-37=2.20.1-1 gir1.2-webkit2-4.0=2.20.1-1 libjavascriptcoregtk-4.0-dev=2.20.1-1 gir1.2-javascriptcoregtk-4.0=2.20.1-1 libjavascriptcoregtk-4.0-18=2.20.1-1
+      after_success:
+        - upx -9 webview-login
     - os: osx
       osx_image: xcode10.2
       before_install:
         - brew install upx
+      after_success:
+        - upx -9 webview-login
     - os: windows
       before_install:
         - choco install upx
+      after_success:
+        - upx -9 webview-login.exe
 
 script:
   - go build -ldflags="-s -w"
-  - test -f webview-login && upx -9 webview-login || upx -9 webview-login.exe
