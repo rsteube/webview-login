@@ -25,4 +25,4 @@ matrix:
 
 script:
   - go build -ldflags="-s -w"
-  - [ -f webview-login ] && upx -9 webview-login || upx -9 webview-login.exe
+  - test -f webview-login && upx -9 webview-login || upx -9 webview-login.exe
