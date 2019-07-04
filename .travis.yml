@@ -5,6 +5,7 @@ go:
 
 env:
   - GO111MODULE=on
+  - ARTIFACT=webview-login
 
 matrix:
   include:
@@ -20,9 +21,11 @@ matrix:
       before_install:
         - brew install upx
     - os: windows
+      env:
+        - ARTIFACT=webview-login.exe
       before_install:
         - choco install upx
 
 script:
   - go build -ldflags="-s -w"
-  - [ -f webview-login ] && upx -9 webview-login || upx -9 webview-login.exe
+  - upx -9 $ARTIFACT
