@@ -38,5 +38,6 @@ deploy:
   file:
     - webview-login
     - webview-login.exe
+  skip_cleanup: true
   on:
     tags: true
