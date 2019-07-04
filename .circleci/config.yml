@@ -6,7 +6,9 @@ jobs:
     steps:
       - run: echo "deb http://deb.debian.org/debian stretch-backports main" | sudo tee -a /etc/apt/sources.list
       - run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.0-dev=2.24.2-1~bpo9+1 libwebkit2gtk-4.0-37=2.24.2-1~bpo9+1 gir1.2-webkit2-4.0=2.24.2-1~bpo9+1 libjavascriptcoregtk-4.0-dev=2.24.2-1~bpo9+1 gir1.2-javascriptcoregtk-4.0=2.24.2-1~bpo9+1 libjavascriptcoregtk-4.0-18=2.24.2-1~bpo9+1
+      - run: sudo apt-get install -y upx
       - checkout
       - run: go build
+      - run: upx -9 webview-login
       - store_artifacts:
           path: webview-login
