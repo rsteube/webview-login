@@ -29,8 +29,8 @@ github.com/pelletier/go-toml v1.2.0 h1:T5zMGML61Wp+FlcbWjRDT7yAxhJNAiPPLOFECq181
 github.com/pelletier/go-toml v1.2.0/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/rsteube/webview v0.0.0-20190624160246-01faaf76baed h1:maZvOVLqtCE0ET6JhCQWrhqATeJhhLZVKpqftXYO+Bw=
-github.com/rsteube/webview v0.0.0-20190624160246-01faaf76baed/go.mod h1:Awp+zOV/XaJj10Fx4ksDzRFxB7wAQ+6ndQ7Ep/i8GzE=
+github.com/rsteube/webview v0.0.0-20190704132800-5b9276ebbca9 h1:f51HKRIxHpfRYVR9JMe5o7Jd4jdR73TarSFfArLXmB4=
+github.com/rsteube/webview v0.0.0-20190704132800-5b9276ebbca9/go.mod h1:Awp+zOV/XaJj10Fx4ksDzRFxB7wAQ+6ndQ7Ep/i8GzE=
 github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
 github.com/spf13/afero v1.1.2 h1:m8/z1t7/fwjysjQRYbP0RD+bUIF/8tJwPdEZsI83ACI=
 github.com/spf13/afero v1.1.2/go.mod h1:j4pytiNVoe2o6bmDsKpLACNPDBIoEAkihy7loJ1B0CQ=

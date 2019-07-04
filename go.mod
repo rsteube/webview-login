@@ -9,4 +9,4 @@ require (
 	github.com/zserge/webview v0.0.0-00010101000000-000000000000
 )
 
-replace github.com/zserge/webview => github.com/rsteube/webview v0.0.0-20190624160246-01faaf76baed
+replace github.com/zserge/webview => github.com/rsteube/webview v0.0.0-20190704132800-5b9276ebbca9
