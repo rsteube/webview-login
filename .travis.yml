@@ -25,8 +25,4 @@ matrix:
 
 script:
   - go build -ldflags="-s -w"
-  - echo "upx -9 webview-login?(.exe)"
-  - ls -lha
-  - bash -c 'ls webview-login?(exe)'
-  - 'ls webview-login?(exe)'
-  - "upx -9 webview-login?(.exe)"
+  - upx -9 (webview-login|webview-login.exe)
