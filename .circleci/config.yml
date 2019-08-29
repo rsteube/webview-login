@@ -12,11 +12,6 @@ jobs:
       - store_artifacts:
           path: webview-login_linux
   publish:
-    requires:
-      - build
-    filters:
-      branches:
-        ignore: /.*/
     docker:
       - image: circleci/golang:1.12-stretch
     steps:
@@ -34,3 +29,8 @@ workflows:
     jobs:
       - build
       - publish
+        filters:
+          branches:
+            ignore: /.*/
+        requires:
+          - build
