@@ -9,7 +9,7 @@ jobs:
       - run: sudo apt-get install -y upx
       - checkout
       - run: go build -ldflags="-s -w" -o webview-login_linux
-      - run: upx -9 webview-login
+      - run: upx -9 webview-login_linux
       - store_artifacts:
           path: webview-login_linux
   publish-github-release:
