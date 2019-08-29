@@ -1,6 +1,9 @@
 version: 2
 jobs:
   build:
+    filters:
+      tags:
+      only: /^\d+\.\d+\.\d+$/
     docker:
       - image: circleci/golang:1.12-stretch
     steps:
