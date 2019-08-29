@@ -1,9 +1,5 @@
-version: 2
 jobs:
   build:
-    filters:
-      tags:
-      only: /^\d+\.\d+\.\d+$/
     docker:
       - image: circleci/golang:1.12-stretch
     steps:
@@ -15,14 +11,12 @@ jobs:
       - run: upx -9 webview-login_linux
       - store_artifacts:
           path: webview-login_linux
-  publish-github-release:
+  publish:
     requires:
       - build
     filters:
       branches:
         ignore: /.*/
-      tags:
-        only: /^\d+\.\d+\.\d+$/
     docker:
       - image: circleci/golang:1.12-stretch
     steps:
@@ -33,3 +27,10 @@ jobs:
           name: "Publish Release on GitHub"
           command: |
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./artifacts/
+
+workflows:          
+  version: 2
+  build_and_publish:
+    jobs:
+      - build
+      - publish
