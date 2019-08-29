@@ -28,7 +28,7 @@ workflows:
   build_and_publish:
     jobs:
       - build:
-        filters:
+          filters:
             tags:
               only: /.*/
       - publish:
