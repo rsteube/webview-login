@@ -17,27 +17,32 @@ matrix:
       libjavascriptcoregtk-4.0-18=2.20.1-1
     after_success:
     - upx -9 webview-login
+    script:
+    - go build -ldflags="-s -w" -o webview-login_linux
   - os: osx
     osx_image: xcode10.2
     before_install:
     - brew install upx
     after_success:
     - upx -9 webview-login
+    script:
+    - go build -ldflags="-s -w" -o webview-login_osx
   - os: windows
     before_install:
     - choco install upx
     after_success:
     - upx -9 webview-login.exe
-script:
-- go build -ldflags="-s -w"
+    script:
+    - go build -ldflags="-s -w" -o webview-login_win.exe
 
 deploy:
   provider: releases
   api_key:
     secure: i3HSkDWSJKRchMuWCMkKzLDHnsI4fkOj8zTUB1dy8yCxQynJwctsEm9eHAfBDeDNhrwxleN9i/AEieQBx7Cls+QzNArIV4HqzoHduKaFo5M3ofjcM/HIEl13zBpumx5xQRqNxqWkop1TRpxtywJcYpfVpmfLa8BQ32J2edxO+JcnH+fbBUEMwGT99OSXMDagfXtUHKPc+vKfnFgH6bIVDmc8iXMPmJ7mMzFZBO5xiaGcBLWTfHO7l7lzKLAEmLF3mczIWAXiopLwddMTOY+inYR5IDHqj4S+sG4CWpnby53gP8kn00FM5u8H/hC1u8wNqhYkfWlvhJjlwh++Tgd2vJRWW3MgfvnuyTmcFvMZIKtSqRd5erNpFZIK2u1Vpm5MYCngNnPTquXBMGCGifMYAu91nR59Dk8RkqY8MzXTzJgCVdKgE0Ay1g4WfznyZCkA/l/c1Xt40DyKwm9NxOFvbbf/uSQ6IvYCXqIRn12jTc/JKH0VlZRiMyK+nzlFTTePuxrWo7nmNPfyi/NckChzMP6zY2dmi59yUBJ8gWyMRtQ9JGRsYQqlmAGj6FXVE2EZFCS2Fdn63D47dK1ydGw5AKsz8YDejNZXM74DQ+hvdUvFhL0Nj/GeMKWHQqDFN4NqPYdvYvbyUOC/eSOBzQvyTBjZgu2eg8AKbe4nl1uV4Jg=
   file:
-    - webview-login
-    - webview-login.exe
+    - webview-login_linux
+    - webview-login_osx
+    - webview-login_win.exe
   skip_cleanup: true
   on:
     tags: true
