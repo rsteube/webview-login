@@ -11,6 +11,10 @@ jobs:
       - run: upx -9 webview-login_linux
       - store_artifacts:
           path: webview-login_linux
+      - persist_to_workspace:
+          root: workspace
+          paths:
+            - webview-login_linux
   publish:
     docker:
       - image: circleci/golang:1.12-stretch
@@ -18,12 +22,12 @@ jobs:
       - run: ls -lha
       - run: go get -u github.com/tcnksm/ghr
       - attach_workspace:
-          at: ./artifacts
+          at: workspace
       - run: ls -lha artifacts
       - run:
           name: "Publish Release on GitHub"
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./artifacts/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} workspace/webview-login_linux
 
 workflows:          
   version: 2
