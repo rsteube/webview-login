@@ -28,9 +28,9 @@ workflows:
   build_and_publish:
     jobs:
       - build
-      - publish
-        filters:
-          branches:
-            ignore: /.*/
-        requires:
-          - build
+      - publish:
+          filters:
+            branches:
+              ignore: /.*/
+          requires:
+            - build
