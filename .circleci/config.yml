@@ -12,6 +12,7 @@ jobs:
       - store_artifacts:
           path: webview-login_linux
       - persist_to_workspace:
+          root: .
           paths:
             - webview-login_linux
   publish:
@@ -21,12 +22,12 @@ jobs:
       - run: ls -lha
       - run: go get -u github.com/tcnksm/ghr
       - attach_workspace:
-          at: workspace
+          at: .
       - run: ls -lha artifacts
       - run:
           name: "Publish Release on GitHub"
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} workspace/webview-login_linux
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} webview-login_linux
 
 workflows:          
   version: 2
