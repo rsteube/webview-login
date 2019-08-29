@@ -7,8 +7,24 @@ jobs:
       - run: echo "deb http://deb.debian.org/debian stretch-backports-sloppy main" | sudo tee -a /etc/apt/sources.list
       - run: sudo apt-get update && sudo apt-get install -y libwebkit2gtk-4.0-dev
       - run: sudo apt-get install -y upx
+      - run: go get -u github.com/tcnksm/ghr
       - checkout
       - run: go build -ldflags="-s -w" -o webview-login_linux
       - run: upx -9 webview-login
       - store_artifacts:
           path: webview-login_linux
+  publish-github-release:
+    requires:
+      - build
+    filters:
+      branches:
+        ignore: /.*/
+      tags:
+        only: /^\d+\.\d+\.\d+$/
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./artifacts/
