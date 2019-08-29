@@ -12,7 +12,6 @@ jobs:
       - store_artifacts:
           path: webview-login_linux
       - persist_to_workspace:
-          root: workspace
           paths:
             - webview-login_linux
   publish:
