@@ -19,11 +19,9 @@ jobs:
     docker:
       - image: circleci/golang:1.12-stretch
     steps:
-      - run: ls -lha
       - run: go get -u github.com/tcnksm/ghr
       - attach_workspace:
           at: .
-      - run: ls -lha artifacts
       - run:
           name: "Publish Release on GitHub"
           command: |
